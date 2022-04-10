@@ -1,0 +1,23 @@
+$border: 6px;
+$white: #fff;
+$primary: #151515;
+
+body {
+  margin: 0;
+  background-color: $primary;
+}
+
+.container {
+  max-width: 554px;
+  margin: 24px auto 32px;
+  padding: 24px 12px;
+  border-radius: $border;
+  color: $white;
+}
+
+.posts-list {
+
+}
+
+@import 'post';
+@import 'post-inside';

@@ -1,0 +1,15 @@
+.post-inside {
+  display: flex;
+  flex-direction: column;
+  border-radius: $border;
+
+  &__image {
+    border-radius: 6px;
+    overflow: hidden;
+
+    img {
+      display: block;
+      max-width: 100%;
+    }
+  }
+}

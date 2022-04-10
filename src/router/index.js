@@ -1,8 +1,8 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import Home from '../views/Home.vue';
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
@@ -11,19 +11,41 @@ const routes = [
     component: Home
   },
   {
-    path: '/about',
-    name: 'About',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    path: '/post/:id',
+    name: 'Post',
+    component: () => import(/* webpackChunkName: "PostInside" */ '../views/PostInside.vue')
   }
-]
+];
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
-  routes
+  routes,
+  scrollBehavior (to, from, savedPosition) {
+    if ( savedPosition ) {
+      return { x: 0, y: savedPosition.y }
+    } else {
+      if ( from.name === 'Post' && to.name === 'Home' ) {
+        // return new Promise((resolve, reject) => {
+        //   setTimeout(() => {
+        //     resolve({ x: 0, y: Number(localStorage.getItem('postsScrollTop')) });
+        //   }, 300);
+        // })
+        return { x: 0, y: Number(localStorage.getItem('postsScrollTop')) }
+      } else {
+        return { x: 0, y: 0 }
+      }
+    }
+  },
+});
+
+router.beforeEach((to, from, next) => {
+  if ( from.name === 'Home' ) {
+    const container = document.querySelector('html');
+    localStorage.setItem('postsScrollTop', String(container.scrollTop));
+  }
+
+  next();
 })
 
-export default router
+export default router;
